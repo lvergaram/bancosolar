@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS transferencias;
 DROP TABLE IF EXISTS usuarios;
 
 CREATE TABLE usuarios (
@@ -11,7 +12,7 @@ id SERIAL PRIMARY KEY,
 emisor INT,
 receptor INT,
 monto FLOAT,
-fecha TIMESTAMP,
+fecha TIMESTAMP DEFAULT NOW(),
 FOREIGN KEY (emisor) REFERENCES usuarios(id) ON DELETE CASCADE,
 FOREIGN KEY (receptor) REFERENCES usuarios(id) ON DELETE CASCADE
 );
@@ -21,7 +22,9 @@ FOREIGN KEY (receptor) REFERENCES usuarios(id) ON DELETE CASCADE
 INSERT INTO usuarios (nombre, balance) VALUES 
 ('Usuario1', 1000.00),
 ('Usuario2', 2000.00),
-('Usuario3', 1500.00);
+('Usuario3', 1500.00),
+('Mishucitoooo', 2000.00)
+;
 
 -- Insertar 9 transferencias distintas
 INSERT INTO transferencias (emisor, receptor, monto, fecha) VALUES 

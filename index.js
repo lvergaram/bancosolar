@@ -1,6 +1,7 @@
 import express from 'express'
 import 'dotenv/config'
-import postRouter from './src/Users/user.routes.js'
+import userRouter from './src/Users/user.routes.js'
+import transferRouter from './src/Transfers/transfer.routes.js'
 
 const app = express()
 const __dirname = import.meta.dirname
@@ -9,7 +10,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-app.use('/posts', postRouter)
+app.use('/usuarios', userRouter)
+app.use('/transferencias', transferRouter)
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')

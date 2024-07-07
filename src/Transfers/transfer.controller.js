@@ -1,8 +1,18 @@
-import { userModel } from './user.model.js'
+import { transferModel } from './transfer.model.js'
 
 const getAll = async (req, res) => {
   try {
-    const response = await userModel.getAll()
+    const response = await transferModel.getAll()
+    res.json(response)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ ok: false })
+  }
+}
+
+const getAllAndUserInfo = async (req, res) => {
+  try {
+    const response = await transferModel.getAllAndUserInfo()
     res.json(response)
   } catch (error) {
     console.log(error)
@@ -13,7 +23,7 @@ const getAll = async (req, res) => {
 const getOneById = async (req, res) => {
   try {
     const { id } = req.params
-    const response = await userModel.getOneById(id)
+    const response = await transferModel.getOneById(id)
     res.json(response)
   } catch (error) {
     console.log(error)
@@ -23,11 +33,11 @@ const getOneById = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    if (!req.body.nombre || !req.body.balance) {
-      return res.status(400).json({ ok: false, msg: 'se requiere nombre y balance del usuario' })
+    if (!req.body.emisor || !req.body.receptor || !req.body.monto) {
+      return res.status(400).json({ ok: false, msg: 'se requiere emisor, receptor y monto de la transferencia' })
     }
     const newRegister = req.body
-    const response = await userModel.create(newRegister)
+    const response = await transferModel.create(newRegister)
     res.json(response)
   } catch (error) {
     console.log(error)
@@ -38,11 +48,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params
-    if (!req.body.nombre || !req.body.balance) {
-      return res.status(400).json({ ok: false, msg: 'se requiere nombre y balance del usuario' })
-    }
-    const newRegister = req.body
-    const response = await userModel.update(id, newRegister)
+    const response = await transferModel.update(id)
     res.json(response)
   } catch (error) {
     console.log(error)
@@ -53,7 +59,7 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params
-    const response = await userModel.remove(id)
+    const response = await transferModel.remove(id)
     res.json(response)
   } catch (error) {
     console.log(error)
@@ -61,8 +67,9 @@ const remove = async (req, res) => {
   }
 }
 
-export const userController = {
+export const transferController = {
   getAll,
+  getAllAndUserInfo,
   getOneById,
   create,
   update,
